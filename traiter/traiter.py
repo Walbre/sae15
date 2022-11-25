@@ -90,7 +90,7 @@ class data_handler:
 
     def average_time_diff(self, column:int=0) -> float:
         """
-        Calcule le temps moyen entre 2 lignes du fichier csv, la colonne contenat le temps est précisé avecle paramètre column
+        Calcule le temps moyen entre 2 lignes du fichier csv, la colonne contenant le temps est précisé avecle paramètre column
 
         Args:
             column int (default to 0): La position de la colonne indiquant le temps
@@ -106,6 +106,40 @@ class data_handler:
             average_time += int(data[i][column]) - int(data[i-1][column])
         
         return average_time / (len(data) - 1)
+    
+    def average(self, column:int) -> float:
+        """
+        Calcule la moyenne d'une colonne
+
+        Args:
+            column (int): indice de la colonne
+
+        Returns:
+            float: moyenne de la colonne
+        """
+        
+        # donnees sans unitees
+        data = self.get_data_in_list_of_numbers()
+        average = 0
+        
+        for line in range(len(data)):
+            average += data[line][column]
+        
+        return average / len(data)
+    
+    def get_name(self, column:int) -> str:
+        """
+        Renvoie le nom d'une colonne
+
+        Args:
+            column (int): indice de la colonne
+
+        Returns:
+            str: nom de la colonne
+        """
+        
+        return self.lines[0][column]
+        
 
 
 
@@ -120,7 +154,8 @@ if __name__ == '__main__':
     print(myData.get_data_in_list())
     print(myData.average_time_diff())
     print(myData.get_data_in_list_of_numbers())
-                
+    print(myData.average(2))
+    print(myData.get_name(2))
 
         
     
