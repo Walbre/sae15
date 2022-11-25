@@ -120,7 +120,7 @@ class data_handler:
         
         # donnees sans unitees
         data = self.get_data_in_list_of_numbers()
-        average = 0
+        average : int = 0
         
         for line in range(len(data)):
             average += data[line][column]
@@ -139,6 +139,26 @@ class data_handler:
         """
         
         return self.lines[0][column]
+    
+    def get_column(self, column:int) -> List[int]:
+        """
+        Renvoie la colonne en parametre sous forme de liste
+
+        Args:
+            column (int): indice de la colonnne
+
+        Returns:
+            List[int]: Liste contenant les valeurs de la colonne
+        """
+        
+        data = self.get_data_in_list_of_numbers()
+        
+        result : List[int] = []
+        
+        for line in range(len(data)):
+            result.append(data[line][column])
+        
+        return result
         
 
 
@@ -156,6 +176,7 @@ if __name__ == '__main__':
     print(myData.get_data_in_list_of_numbers())
     print(myData.average(2))
     print(myData.get_name(2))
+    print(myData.get_column(2))
 
         
     
