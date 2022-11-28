@@ -2,7 +2,7 @@
 
 import csv
 import os
-from typing import List
+from typing import List, Tuple
 
 # changement du repertoire d'execution du fichier
 directory = os.path.dirname(__file__)
@@ -159,7 +159,29 @@ class data_handler:
             result.append(data[line][column])
         
         return result
+    
+    def min_max(self, column:int) -> Tuple[float, float]:
+        """
+        Renvoie le couple max, min d'une colonne donnee
+
+        Args:
+            column (int): La colonne en question.
+
+        Returns:
+            Tuple[float, float]: Le couple max, min
+        """
+        data = self.get_data_in_list_of_numbers()
+        max, min = data[column][0], data[column][0]
         
+        for i in range(1, len(data)):
+            if data[i][column] > max:
+                max = data[i][column]
+                
+            if data[i][column] < min:
+                min = data[i][column]
+        
+        return min, max
+    
 
 
 
@@ -177,6 +199,7 @@ if __name__ == '__main__':
     print(myData.average(2))
     print(myData.get_name(2))
     print(myData.get_column(2))
+    print(myData.min_max(0))
 
         
     
