@@ -79,11 +79,26 @@ ax[0, 1].set_xlabel("Temps (min)")
 ax[0, 1].set_ylabel("Mémoire Swap utilisée (%)")
 
 
-    
+
+
+################### camembert memoire moyenne et libre
+
+mem_total = myData.get_column(1)[0]
+
+average_mem_free = (myData.average(2) / mem_total) * 100
+
+average_mem_available = (myData.average(3) / mem_total) * 100
+
+
+values = [average_mem_free, average_mem_available - average_mem_free, 100 - average_mem_available]
+labels = ["Libre", "Utilisable", "Utilisée"]
+
+ax[1, 1].pie(values, labels=labels, autopct='%1.1f%%')
+
 
 ############## affichage des valeurs
 fig.supxlabel(f"Mémoire moyenne utilisée : {round(myData.average(3)/10**6, 3)}/{round(myData.average(1)/10**6, 3)}Gb")
 
-plt.legend(loc='upper center')
+ax[1, 0].legend()
 plt.tight_layout()
 plt.show()
