@@ -97,7 +97,7 @@ ax[1, 1].pie(values, labels=labels, autopct='%1.1f%%')
 
 
 ############## affichage des valeurs
-fig.supxlabel(f"Mémoire moyenne utilisée : {round(myData.average(3)/10**6, 3)}/{round(myData.average(1)/10**6, 3)}Gb")
+fig.supxlabel(f"Mémoire moyenne utilisée : {round(myData.average(1)/10**6 - myData.average(3)/10**6, 3)}/{round(myData.average(1)/10**6, 3)}Gb")
 
 ax[1, 0].legend()
 plt.tight_layout()
