@@ -1,5 +1,24 @@
 #!/usr/bin/python
 
+"""!
+
+@brief Traitement des données d'un fichier csv
+
+@package traitement
+
+@file graphs.py
+Traitement d'un fichier csv
+
+@version 1.0
+
+@section author_libraries_devises Author(s)
+- Crée par Guyon Brewal le 03/01/2023.
+- Copyright (c) 2022 IUT de Lannion. All rights reserved.
+"""
+
+
+
+
 import csv
 import os
 from typing import List, Tuple
@@ -11,12 +30,16 @@ print(f"Execution du fichier dans {directory}")
 os.chdir(directory)
 
 class data_handler:
+    """! Classe qui va servir a interagir avec le fichier csv
+    """
 
     def __init__(self, filename:str, separateur=',') -> None:
+        """! Creation de la classe qui va servir aux interactions avec le fichier csv
+        
+        @param filename  nom du fichier csv a charger
+        @param separateur  separateur des colonnes du fichier csv
         """
-        Creation de la classe qui va servir aux interactions avec le fichier csv
-        """
-        self.separateur = separateur
+        self.separateur : str = separateur
         
         self.filename : str = filename
         
@@ -25,28 +48,25 @@ class data_handler:
         self.raw : str = ""
         
         with open(filename, newline='') as csvfile :
-            datareader = csv.reader(csvfile, delimiter=self.separateur, quotechar='|')
+            datareader : csv._reader = csv.reader(csvfile, delimiter=self.separateur, quotechar='|')
             
             for line in datareader:
                 # ajouter les lignes a la liste
                 self.lines.append(line)
                 
-                # ajouter les lignes sous la frome de string dans le string
+                # ajouter les lignes sous la forme de string dans le string
                 self.raw += ",".join(line) + "\n"
         
     def get_raw_data_in_string(self) -> str:
-        """
-        Renvoie les donnees brutes du fichier csv en format string
+        """! Renvoie les données brutes du fichier csv en format string
         
-        Returns:
-            str: les donnees du fichier
+        @return  les données du fichier en dur
         """
         return self.raw
 
     
     def get_data_in_list(self, first_line:bool=False) -> List[List[str]]:
-        """
-        Renvoie une liste a 2 dimensions qui contient les differentes donnees en string
+        """! Renvoie une liste a 2 dimensions qui contient les differentes donnees en string
         
         Exemple pour le fihier csv
         a, b, c
@@ -55,20 +75,16 @@ class data_handler:
         
         >> [[a, b, c], [d, e, f], [g, h, i]]
         
-        Args:
-            first_line bool (default to False): si first_line est a False alors la premier ligne n'est pas renvoyee
+        @param first_line  si first_line est a False alors la premier ligne n'est pas prise en compte
 
-        Returns:
-            List[List[str]]: la liste de liste
+        @return  la liste de liste représentant les donées
         """
         return self.lines[1:] if not first_line else self.line
     
     def get_data_in_list_of_numbers(self) -> List[List[int]]:
-        """
-        Remove all units from the data and returning only the list of numbers (as get_data_in_list() but without units)
-
-        Returns:
-            List[List[int]]: The data once formated
+        """! Enlève les unitées si il y en a (comme get_data_in_list() mais sans unitées)
+        
+        @return  la liste de liste contenant les données
         """
         
         numbers : List[int] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -88,15 +104,12 @@ class data_handler:
         return newList
                         
 
-    def average_time_diff(self, column:int=0) -> float:
-        """
-        Calcule le temps moyen entre 2 lignes du fichier csv, la colonne contenant le temps est précisé avecle paramètre column
+    def average_diff(self, column:int=0) -> float:
+        """! Calcule la différence moyenne dans une colonne (par défaut la première colonne)
 
-        Args:
-            column int (default to 0): La position de la colonne indiquant le temps
+        @param column  La colonne sur la quelle il faut réaliser l'oppération
         
-        Returns:
-            float: Le temps moyen
+        @return  La différence moyenne
         """
         
         data = self.get_data_in_list()
@@ -108,17 +121,14 @@ class data_handler:
         return average_time / (len(data) - 1)
     
     def average(self, column:int) -> float:
-        """
-        Calcule la moyenne d'une colonne
+        """! Calcule la moyenne d'une colonne
 
-        Args:
-            column (int): indice de la colonne
+        @param column  indice de la colonne
 
-        Returns:
-            float: moyenne de la colonne
+        @return  moyenne de la colonne
         """
         
-        # donnees sans unitees
+        # donnees sans unitées
         data = self.get_data_in_list_of_numbers()
         average : int = 0
         
@@ -128,27 +138,21 @@ class data_handler:
         return average / len(data)
     
     def get_name(self, column:int) -> str:
-        """
-        Renvoie le nom d'une colonne
+        """! Renvoie le nom d'une colonne
 
-        Args:
-            column (int): indice de la colonne
+        @param column  indice de la colonne
 
-        Returns:
-            str: nom de la colonne
+        @return  nom de la colonne
         """
         
         return self.lines[0][column]
     
     def get_column(self, column:int) -> List[int]:
-        """
-        Renvoie la colonne en parametre sous forme de liste
+        """! Renvoie la colonne en parametre sous forme de liste
 
-        Args:
-            column (int): indice de la colonnne
+        @param column  indice de la colonnne
 
-        Returns:
-            List[int]: Liste contenant les valeurs de la colonne
+        @return  Liste contenant les valeurs de la colonne
         """
         
         data = self.get_data_in_list_of_numbers()
@@ -161,14 +165,11 @@ class data_handler:
         return result
     
     def min_max(self, column:int) -> Tuple[float, float]:
-        """
-        Renvoie le couple max, min d'une colonne donnee
+        """! Renvoie le couple max, min d'une colonne donnée
 
-        Args:
-            column (int): La colonne en question.
+        @param column  La colonne en question.
 
-        Returns:
-            Tuple[float, float]: Le couple max, min
+        @return  Le couple max, min
         """
         data = self.get_data_in_list_of_numbers()
         max, min = data[column][0], data[column][0]
@@ -183,6 +184,47 @@ class data_handler:
         return min, max
     
 
+    def get_data_in_dict(self, column) -> dict:
+        """! Récuperer les données sous la forme d'un dictionnaire avec la colonne en paramètre comme clés
+        
+        @param column  indice de la colonne clés
+        
+        @return  dictionnaire avec les données
+        """
+        
+        
+        data : List[List[int]] = self.get_data_in_list_of_numbers()
+        
+        dictionnaire : dict = {}
+        
+        for i in range(len(data)):
+            dictionnaire[data[i][column]] = data[i]
+            
+        return dictionnaire
+    
+    
+    def get_max_by_refernce(self, column_ref, column_aim) -> int:
+        """!Renvoi la valeur de la colonne column_ref pour la valeur max de column_aim
+        
+        @param column_ref  colonne qui contient la valeur qui va etre renvoyée
+        @param column_aim  colonne qui contient les valeurs de référence (c'est ici que le max va etre recherché)
+
+        @return  la valeur trouvé
+        """
+        
+        data : dict = self.get_data_in_dict(column_ref)
+        
+        max = (list(data.keys())[0], data[list(data.keys())[0]][column_aim])
+        
+        for key,values in data.items():
+            
+            if max[1] < values[column_aim]:
+                max = (key, values[column_aim])
+                
+        return max[0]
+            
+            
+        
 
 
 
@@ -194,12 +236,14 @@ if __name__ == '__main__':
     
     print(myData.get_raw_data_in_string())
     print(myData.get_data_in_list())
-    print(myData.average_time_diff())
+    print(myData.average_diff())
     print(myData.get_data_in_list_of_numbers())
     print(myData.average(2))
     print(myData.get_name(2))
     print(myData.get_column(2))
     print(myData.min_max(0))
+    print(myData.get_data_in_dict(0))
+    print(myData.get_max_by_refernce(0, 3))
 
         
     
