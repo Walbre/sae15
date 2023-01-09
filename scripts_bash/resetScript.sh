@@ -4,3 +4,5 @@
 
 line="time,MemTotal,MemFree,MemAvilable,SwapCached,SwapTotal,SwapFree"
 echo $line > data.csv
+
+exit 0

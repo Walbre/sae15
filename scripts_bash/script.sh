@@ -20,3 +20,5 @@ echo -n ${line::-1} >> /root/Documents/sae15/data.csv
 echo "" >> /root/Documents/sae15/data.csv
 
 # tr -s -> replace multiple -s into one | tr -s -> remove all (: because there is : everywhere
+
+exit 0

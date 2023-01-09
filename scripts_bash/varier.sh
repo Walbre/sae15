@@ -27,3 +27,4 @@ a=$a$a
 echo taille de la variable : $(echo $a | wc -c)
 done
 
+exit 0
